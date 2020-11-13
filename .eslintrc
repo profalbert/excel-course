@@ -6,6 +6,7 @@
     "node": true
   },
   "rules": {
+    "linebreak-style": ["error", "windows"],
     "semi": "off",
     "arrow-parens": "off",
     "comma-dangle": "off",
