@@ -13,14 +13,21 @@ const toCell = (col, row) => {
 
 const toColumn = (col) => {
   return `
-    <div class="column">${col}</div>
+    <div class="column">
+      ${col}
+      <div class="col-resize"></div>
+    </div>
   `
 }
 
 const createRow = (content, index) => {
+  const resize = '<div class="row-resize"></div>'
   return `
     <div class="row">
-      <div class="row_info">${index > 0 ? index : ''}</div>
+      <div class="row_info">
+        ${index > 0 ? index : ''}
+        ${index > 0 ? resize : ''}
+      </div>
       <div class="row_data">${content}</div>
     </div>
   `
