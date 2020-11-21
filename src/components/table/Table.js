@@ -1,5 +1,7 @@
 import { ExcelComponent } from "@core/ExcelComponent"
 import { createTable } from "./table.template"
+import { resizeHandler } from "./table.resize"
+import { shouldResize } from "./table.functions"
 
 export class Table extends ExcelComponent {
   static className = 'excel__table'
@@ -14,15 +16,18 @@ export class Table extends ExcelComponent {
     return createTable(10)
   }
 
-  onClick() {
-    console.log('click')
+  onMousedown(event) {
+    if (shouldResize(resize)) {
+      resizeHandler(this.$root, event)
+    }
   }
+  
+  // зачем нужны тогда события 'click', 'mousemove'???
+  // onClick() {
+  //   // console.log('click')
+  // }
 
-  onMousedown() {
-    console.log('mousedown')
-  }
-
-  onMousemove() {
-    console.log('mousemove')
-  }
+  // onMousemove(event) {
+  //   // console.log(event)
+  // }
 }
