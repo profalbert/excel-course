@@ -8,13 +8,17 @@
   top: $header-height + $toolbar-height + $formula-height;
   overflow-x: auto;
   padding-bottom: 2px;
+  user-select: none;
 
   .row {
     display: flex;
+    min-height: $row-height;
     height: $row-height;
   }
 
   .row_info {
+    min-height: $row-height;
+    position: relative;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -23,7 +27,7 @@
     border: 1px solid $border-color;
     background: #f8f9fa;
     border-top: none;
-
+    border-left: none;
   }
 
   .row_data {
@@ -31,6 +35,7 @@
   }
 
   .column {
+    position: relative;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -45,6 +50,7 @@
 
   .cell {
     min-width: 40px;
+    min-height: $row-height;
     padding: 5px;
     width: $cell-width;
     height: 100%;
@@ -54,11 +60,65 @@
     color: #111;
     white-space: nowrap; // Свойство white-space управляет тем, как обрабатываются пробелы и переносы строки внутри элемента.
     outline: none;
+    user-select: auto;
 
     &.selected {
       border: none;
-      outline: 2px solid #3c74ff;
+      outline: 2px solid $primary-color;
       z-index: 2;
+    }
+  }
+
+  .col-resize, .row-resize {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    background: $primary-color;
+    opacity: 0;
+    z-index: 5;
+
+    &:hover {
+      opacity: 1!important;
+    }
+
+    &::after {
+      position: absolute;
+      content: '';
+      z-index: 5;
+      display: block;
+      background: $primary-color;
+    }
+  }
+
+  .col-resize {
+    width: 5px;
+    top: 0;
+
+    &:hover {
+      cursor: col-resize;
+    }
+
+    &::after {
+      top: 0;
+      right: 2px;
+      width: 1px;
+      height: 5000px;
+    }
+  }
+
+  .row-resize {
+    height: 5px;
+    left: 0;
+
+    &:hover {
+      cursor: row-resize;
+    }
+
+    &::after {
+      left: 0;
+      bottom: 2px;
+      width: 5000px;
+      height: 1px;
     }
   }
 }

@@ -4,23 +4,36 @@ const CODES = {
   Z: 90
 }
 
-const toCell = (col, row) => {
+const toCell = (col, row, indexCol) => {
   const selectedCell = (col.charCodeAt() === CODES.A) && (row === 1)
   return `
-    <div class="cell ${selectedCell ? 'selected' : ''}" contenteditable="true">${col}${row}</div>
+    <div 
+      class="cell ${selectedCell ? 'selected' : ''}" 
+      contenteditable="true" 
+      data-cell="${indexCol}"
+    >
+      ${col}${row}
+    </div>
   `
 }
 
-const toColumn = (col) => {
+const toColumn = (col, index) => {
   return `
-    <div class="column">${col}</div>
+    <div class="column" data-col="${index}" data-type="resizable">
+      ${col}
+      <div class="col-resize" data-resize="col"></div>
+    </div>
   `
 }
 
 const createRow = (content, index) => {
+  const resize = '<div class="row-resize" data-resize="row"></div>'
   return `
-    <div class="row">
-      <div class="row_info">${index > 0 ? index : ''}</div>
+    <div class="row" ${index > 0 ? 'data-type="resizable"' : ''}>
+      <div class="row_info">
+        ${index > 0 ? index : ''}
+        ${index > 0 ? resize : ''}
+      </div>
       <div class="row_data">${content}</div>
     </div>
   `
@@ -49,7 +62,7 @@ export const createTable = (rowsCount = 15,) => {
     const cells = new Array(colsCount)
       .fill('') 
       .map(toChar)
-      .map((el) => toCell(el, i + 1))
+      .map((el, index) => toCell(el, i + 1, index))
       .join('')
     rows.push(createRow(cells, i + 1))
   }
