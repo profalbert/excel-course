@@ -16,7 +16,7 @@ export const resizeHandler = ($root, event) => {
     opacity: 1,
   })
 
-  const cells = $root.findAll(`[data-cell="${$parent.data.col}"]`) // выносим 
+  const cells = $root.findAll(`[data-col="${$parent.data.col}"]`) // выносим 
   // поиск элементов за событие onmousemove, тем самым не ищем их каждый раз заново, 
   // что положительно сказывается на производительности
 
