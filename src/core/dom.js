@@ -22,11 +22,11 @@ class Dom {
 
     // textContent не получится, если это input, 
     // поэтому делаю такую проверку
-    if (this.$el.tagName.toLowerCase() === 'input') { 
-      return this.$el.value.trim()
+    if (this.$el.tagName.toLowerCase() === 'input') {
+      return this.$el.value
     }
 
-    return this.$el.textContent.trim()
+    return this.$el.textContent
   }
 
   clear() {
@@ -73,7 +73,8 @@ class Dom {
   }
 
   findAll(selector) {
-    return this.$el.querySelectorAll(selector)
+    const elements = [...this.$el.querySelectorAll(selector)]
+    return elements.map((el) => $(el))
   }
 
   id(isParse) {
@@ -92,6 +93,14 @@ class Dom {
     return this
   }
 
+  attr(name, value) {
+    if (value || typeof value === 'string') {
+      this.$el.setAttribute(name, value)
+      return this
+    }
+    return this.$el.getAttribute(name)
+  }
+
   addClass(className) {
     this.$el.classList.add(className)
     return this
@@ -106,6 +115,13 @@ class Dom {
     Object.entries(styles).forEach(([key, value]) => {
       this.$el.style[key] = value
     })
+  }
+
+  getStyles(styles = []) {
+    return styles.reduce((res, s) => {
+      res[s] = this.$el.style[s]
+      return res
+    }, {})
   }
 }
 

@@ -11,11 +11,11 @@
     font-size: 18px;
   }
 
-  :active, .active {
+  &:active, &.active {
     color: $color;
   }
 
-  :hover {
+  &:hover {
     background: #eee;
     cursor: pointer;
   }
