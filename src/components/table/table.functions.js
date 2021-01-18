@@ -1,13 +1,16 @@
 import { range } from "@core/utils"
+import { parse } from "@core/parse"
 
 
 export const shouldResize = (event) => {
   return event.target.dataset.resize
 }
 
+
 export const isCell = (event) => {
   return event.target.dataset.type === 'cell'
 }
+
 
 export const matrix = ($target, $current) => {
   const current = $current.id(true)
@@ -22,6 +25,7 @@ export const matrix = ($target, $current) => {
 
   return ids
 }
+
 
 export const nextSelector = (KEYS, keyCode, {row, col}, rowsCount, colsCount) => {
   const ROWS_MIN_VALUE = 1
@@ -48,3 +52,51 @@ export const nextSelector = (KEYS, keyCode, {row, col}, rowsCount, colsCount) =>
 
   return `[data-id="${row}:${col}"]`
 }
+
+
+export const initRowsAndColsSize = (state, $root) => {
+  let rows = state.rowState,
+      cols = state.colState,
+      type,
+      $parent,
+      value,
+      cells;
+
+  Object.keys(rows).forEach(key => {
+    type = 'row'
+    $parent = $root.find(`[data-row="${key}"]`)
+    value = rows[key]
+    onRowOrColResize(type, $parent, value, cells)
+  })
+  Object.keys(cols).forEach(key => {
+    type = 'col'
+    $parent = $root.find(`[data-col="${key}"]`)
+    value = cols[key]
+    cells = $root.findAll(`[data-col="${$parent.data.col}"]`)
+    onRowOrColResize(type, $parent, value, cells)
+  })
+}
+
+
+export const onRowOrColResize = (type, $parent, value, cells) => {
+  if (type === 'col') {
+    $parent.css({width: value + 'px'})
+    cells.forEach((el) => el.css({width: value + 'px'}))
+  } else if (type === 'row') {
+    $parent.css({height: value + 'px'})
+  }
+}
+
+
+export const initCellsData = (state, $root) => {
+  let dataState = state.dataState,
+      $cell;
+
+  Object.entries(dataState).forEach(([key, value]) => {
+    $cell = $root.find(`[data-id="${key}"]`)
+    $cell
+      .attr('data-value', value)
+      .text(parse(value))
+  })
+}
+
