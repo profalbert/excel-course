@@ -1,5 +1,5 @@
-import { range } from "@core/utils"
-import { parse } from "@core/parse"
+import {range} from '@core/utils'
+import {parse} from '@core/parse'
 
 
 export const shouldResize = (event) => {
@@ -17,7 +17,7 @@ export const matrix = ($target, $current) => {
   const target = $target.id(true)
   const cols = range(current.col, target.col)
   const rows = range(current.row, target.row)
-  
+
   const ids = cols.reduce((acc, col) => {
     rows.forEach(row => acc.push(`${row}:${col}`))
     return acc
@@ -34,8 +34,8 @@ export const nextSelector = (KEYS, keyCode, {row, col}, rowsCount, colsCount) =>
   const COLS_MAX_VALUE = colsCount
 
   switch (keyCode) {
-    case KEYS.ArrowLeft: 
-      col = col - 1 < COLS_MIN_VALUE ? COLS_MIN_VALUE : col - 1 
+    case KEYS.ArrowLeft:
+      col = col - 1 < COLS_MIN_VALUE ? COLS_MIN_VALUE : col - 1
       break;
     case KEYS.ArrowUp:
       row = row - 1 < ROWS_MIN_VALUE ? ROWS_MIN_VALUE : row - 1
@@ -43,9 +43,9 @@ export const nextSelector = (KEYS, keyCode, {row, col}, rowsCount, colsCount) =>
     case KEYS.ArrowRight:
       col = col + 1 > COLS_MAX_VALUE ? COLS_MAX_VALUE : col + 1
       break;
-    case KEYS.ArrowDown: 
+    case KEYS.ArrowDown:
       row = row + 1 > ROWS_MAX_VALUE ? ROWS_MAX_VALUE : row + 1
-      break;  
+      break;
     default:
       break;
   }
@@ -55,12 +55,12 @@ export const nextSelector = (KEYS, keyCode, {row, col}, rowsCount, colsCount) =>
 
 
 export const initRowsAndColsSize = (state, $root) => {
-  let rows = state.rowState,
-      cols = state.colState,
-      type,
-      $parent,
-      value,
-      cells;
+  const rows = state.rowState;
+  const cols = state.colState;
+  let type;
+  let $parent;
+  let value;
+  let cells;
 
   Object.keys(rows).forEach(key => {
     type = 'row'
@@ -89,14 +89,14 @@ export const onRowOrColResize = (type, $parent, value, cells) => {
 
 
 export const initCellsData = (state, $root) => {
-  let dataState = state.dataState,
-      $cell;
+  const dataState = state.dataState;
+  let $cell;
 
   Object.entries(dataState).forEach(([key, value]) => {
     $cell = $root.find(`[data-id="${key}"]`)
     $cell
-      .attr('data-value', value)
-      .text(parse(value))
+        .attr('data-value', value)
+        .text(parse(value))
   })
 }
 

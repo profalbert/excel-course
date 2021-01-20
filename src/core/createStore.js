@@ -23,7 +23,6 @@ export const createStore = (rootReducer, initialState) => {
 }
 
 
-
 // // createStore в виде класса:
 // export class CreateStoreClass {
 //   constructor(rootReducer, initialState = {}) {

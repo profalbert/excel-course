@@ -1,8 +1,8 @@
-import * as reducersTypes from "@/redux/reducersTypes";
+import * as reducersTypes from '@/redux/reducersTypes';
 
 
 export const rootReducer = (state, action) => {
-  switch(action.type) {
+  switch (action.type) {
     case reducersTypes.TABLE_RESIZE:
       const type = action.data.type + 'State'
       return {
@@ -37,7 +37,12 @@ export const rootReducer = (state, action) => {
         ...state,
         tableTitle: action.data.value
       }
-    default: 
+    case reducersTypes.UPDATE_OPENED_DATE:
+      return {
+        ...state,
+        openedDate: Date.now().toString(),
+      }
+    default:
       return state;
   }
 }

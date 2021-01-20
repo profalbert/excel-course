@@ -17,6 +17,7 @@ const toButton = (button) => {
   `
 }
 
+
 export const createToolbar = (state) => {
   const buttons = [
     {

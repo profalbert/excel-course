@@ -2,7 +2,7 @@ export const parse = (value = '') => { // делаем логику вычисл
   if (value.startsWith('=')) {
     try {
       return eval(value.slice(1)).toString()
-    } catch(e) {
+    } catch (e) {
       console.warn('Skipping parse error', e.message)
     }
   }

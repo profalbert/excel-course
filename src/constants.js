@@ -2,7 +2,7 @@ export const defaultStyles = {
   textAlign: 'left',
   fontWeight: 'normal',
   fontStyle: 'normal',
-  textDecoration: 'none',  
+  textDecoration: 'none',
 }
 
-export const defaultTabletitle = 'Новая таблица'
+export const defaultTabletitle = 'New table'

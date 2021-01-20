@@ -1,7 +1,7 @@
 // создаем свою утилиту (аналог jQuery на минималках)
 class Dom {
   constructor(selector) {
-    this.$el = typeof selector === 'string' 
+    this.$el = typeof selector === 'string'
       ? document.querySelector(selector)
       : selector
   }
@@ -20,7 +20,7 @@ class Dom {
       return this
     }
 
-    // textContent не получится, если это input, 
+    // textContent не получится, если это input,
     // поэтому делаю такую проверку
     if (this.$el.tagName.toLowerCase() === 'input') {
       return this.$el.value

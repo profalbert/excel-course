@@ -1,10 +1,12 @@
-import { $ } from "@core/dom"
-import { Emitter } from "@core/Emitter"
-import { StoreSubscriber } from "@core/StoreSubscriber"
+import {$} from '@core/dom'
+import {Emitter} from '@core/Emitter'
+import {StoreSubscriber} from '@core/StoreSubscriber'
+import * as actions from '@/redux/actions'
+import {preventDefault} from '@core/utils'
+
 
 export class Excel {
-  constructor(selector, options) {
-    this.$el = $(selector)
+  constructor(options) {
     this.components = options.components || []
     this.store = options.store
     this.emitter = new Emitter()
@@ -35,20 +37,25 @@ export class Excel {
     return $root
   }
 
-  render() {
-    // insertAdjacentHTML() разбирает указанный текст как HTML или XML и вставляет 
-    // полученные узлы (nodes) в DOM дерево в указанную позицию. 
-    // Данная функция не переписывает имеющиеся элементы, 
-    // что предотвращает дополнительную сериализацию и 
+  init() {
+    // insertAdjacentHTML() разбирает указанный текст как HTML или XML и вставляет
+    // полученные узлы (nodes) в DOM дерево в указанную позицию.
+    // Данная функция не переписывает имеющиеся элементы,
+    // что предотвращает дополнительную сериализацию и
     // поэтому работает быстрее, чем манипуляции с innerHTML.
 
     // position: 'beforebegin', 'afterbegin', 'beforeend', 'afterend'
     // this.$el.insertAdjacentHTML()
 
 
-    this.$el.append(this.getRoot())
+    if (process.env.NODE_ENV === 'production') { // делаем разное поведение приложения исходя из режима разработки
+      document.addEventListener('contextmenu', preventDefault) // в данном случае блокируем правую кнопку мыши при инициализации таблицы
+    }
+
+    this.store.dispatch(actions.updateOpenedDate())
     this.subscriber.subscribeComponents(this.components)
     this.components.forEach(component => component.init())
+
 
     // setTimeout(()=> {
     //   this.components.forEach(component => component.destroy())
@@ -58,5 +65,6 @@ export class Excel {
   destroy() {
     this.subscriber.unsubscribeFromStore()
     this.components.forEach(component => component.destroy())
+    document.removeEventListener('contextmenu', preventDefault)
   }
 }

@@ -1,5 +1,5 @@
-import {storage} from '@core/utils'
-import { defaultStyles, defaultTabletitle } from '@/constants'
+import {defaultStyles, defaultTabletitle} from '@/constants'
+
 
 const defaultState = {
   rowState: {},
@@ -9,6 +9,9 @@ const defaultState = {
   stylesState: {},
   currentText: '',
   tableTitle: defaultTabletitle,
+  openedDate: Date.now().toString(),
 }
 
-export const initialState = {...defaultState, ...storage('excel-state')}
+export const normalizeInitState = (state) => {
+  return {...defaultState, ...state, openedDate: Date.now().toString()}
+}

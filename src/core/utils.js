@@ -11,8 +11,8 @@ export const range = (start, end) => {
     [end, start] = [start, end]
   }
   return new Array(end - start + 1)
-    .fill('')
-    .map((_, index) => start + index)
+      .fill('')
+      .map((_, index) => start + index)
 }
 
 
@@ -25,9 +25,14 @@ export const storage = (key, data = null) => {
 }
 
 
+export const removeStorage = (key) => {
+  localStorage.removeItem(key)
+}
+
+
 export const isEqual = (a, b) => {
   if (typeof a === 'object' && typeof b === 'object') {
-    return JSON.stringify(a) === JSON.stringify(b) // работает только 
+    return JSON.stringify(a) === JSON.stringify(b) // работает только
     // в том случае, если мы используем простые объекты (без new Date, Map, Set и тп)
   }
   return a === b
@@ -41,8 +46,8 @@ export const camelToDashCase = (str) => {
 
 export const toInlineStyles = (styles = {}) => {
   return Object.keys(styles)
-    .map(key => `${camelToDashCase(key)}: ${styles[key]}`)
-    .join(';')
+      .map(key => `${camelToDashCase(key)}: ${styles[key]}`)
+      .join(';')
 }
 
 
@@ -60,6 +65,11 @@ export const debounce = (fn, wait) => { // избавляемся от спам�
 }
 
 
+export const storageName = (param) => {
+  return `excel:${param}`
+}
 
 
-
+export const preventDefault = (event) => {
+  event.preventDefault()
+}
