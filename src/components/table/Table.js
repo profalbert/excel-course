@@ -1,18 +1,18 @@
-import { ExcelComponent } from "@core/ExcelComponent"
-import { createTable, CODES } from "./table.template"
-import { resizeHandler } from "./table.resize"
-import { shouldResize, 
-  isCell, 
-  matrix, 
-  nextSelector, 
-  initRowsAndColsSize, 
+import {ExcelComponent} from '@core/ExcelComponent'
+import {createTable, CODES} from './table.template'
+import {resizeHandler} from './table.resize'
+import {shouldResize,
+  isCell,
+  matrix,
+  nextSelector,
+  initRowsAndColsSize,
   initCellsData,
-} from "./table.functions"
-import { TableSelection } from "./TableSelection"
-import { $ } from "@core/dom"
-import * as actions from "@/redux/actions"
-import { defaultStyles } from "@/constants"
-import { parse } from "@core/parse"
+} from './table.functions'
+import {TableSelection} from './TableSelection'
+import {$} from '@core/dom'
+import * as actions from '@/redux/actions'
+import {defaultStyles} from '@/constants'
+import {parse} from '@core/parse'
 
 
 export class Table extends ExcelComponent {
@@ -47,8 +47,8 @@ export class Table extends ExcelComponent {
 
     this.$on('formula:input', (value) => {
       this.selection.current
-        .attr('data-value', value)
-        .text(parse(value))
+          .attr('data-value', value)
+          .text(parse(value))
       this.updateTextInStore(value)
     })
 
@@ -88,7 +88,7 @@ export class Table extends ExcelComponent {
       this.$dispatch(actions.tableResize(data))
     } catch (error) {
       console.warn('Resize error', error.message);
-    }    
+    }
   }
 
   onMousedown(event) {
@@ -98,9 +98,9 @@ export class Table extends ExcelComponent {
       const $target = $(event.target)
       if (event.shiftKey) {
         const $cells = matrix($target, this.selection.current)
-          .map((id) => this.$root.find(`[data-id="${id}"]`))
+            .map((id) => this.$root.find(`[data-id="${id}"]`))
         this.selection.selectGroup($cells)
-      } else {        
+      } else {
         this.selectCell($target)
       }
     }
@@ -126,5 +126,5 @@ export class Table extends ExcelComponent {
     // this.$emit('table:input', $(event.target))
     this.updateTextInStore($(event.target).text())
   }
-  // todo: зачем нужны тогда события 'click', 'mousemove'???  
+  // todo: зачем нужны тогда события 'click', 'mousemove'???
 }

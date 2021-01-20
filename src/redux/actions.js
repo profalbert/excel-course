@@ -1,4 +1,5 @@
-import * as reducersTypes from "@/redux/reducersTypes";
+import * as reducersTypes from '@/redux/reducersTypes';
+
 
 export const tableResize = (data) => {
   return {
@@ -32,5 +33,11 @@ export const changeTableTitle = (data) => {
   return {
     type: reducersTypes.CHANGE_TABLE_TITLE,
     data
+  }
+}
+
+export const updateOpenedDate = () => {
+  return {
+    type: reducersTypes.UPDATE_OPENED_DATE
   }
 }

@@ -1,5 +1,5 @@
-import { toInlineStyles } from "@core/utils"
-import { defaultStyles } from "@/constants"
+import {toInlineStyles} from '@core/utils'
+import {defaultStyles} from '@/constants'
 
 
 export const CODES = {
@@ -11,7 +11,8 @@ export const CODES = {
 const toCell = (indexRow, state) => { // todo: убрать state из функции этой
   return (col, indexCol) => {
     // const selectedCell = (col.charCodeAt() === CODES.A) && (indexRow === 1)
-    const id = `${indexRow + 1}:${indexCol + 1}`
+    const id = `${indexRow}:${indexCol}`
+    const value = `${col}${indexRow}`
     const styles = toInlineStyles({
       ...defaultStyles,
       ...state.stylesState[id],
@@ -21,12 +22,13 @@ const toCell = (indexRow, state) => { // todo: убрать state из функ�
       <div 
         class="cell"
         contenteditable="true"
-        data-col="${indexCol + 1}"
+        data-col="${indexCol}"
         data-id="${id}"
         data-type="cell"
+        data-value="${value}"
         style="${styles}"
       >
-        ${col}${indexRow + 1}
+        ${value}
       </div>
     `
   }
@@ -45,7 +47,7 @@ const toColumn = (col, indexCol) => {
 
 const createRow = (content, indexRow) => {
   const resize = '<div class="row-resize" data-resize="row"></div>'
-  return indexRow > 0 
+  return indexRow > 0
     ? `
         <div class="row" data-row="${indexRow}" data-type="resizable">
           <div class="row_info">
@@ -75,25 +77,27 @@ export const createTable = (rowsCount = 15, state) => {
   const rows = []
 
   const cols = new Array(colsCount) // Декларативный код
-    .fill('')
-    .map(toChar)
-    .map((col, index) => {
-      return toColumn(col, index + 1)
-    })
-    .join('')
-    
+      .fill('')
+      .map(toChar)
+      .map((col, indexCol) => {
+        return toColumn(col, indexCol + 1)
+      })
+      .join('')
+
   rows.push(createRow(cols, 0)) // выносим это из цикла, тк это строка отличается от остальных
 
-  for (let row = 0; row < rowsCount; row++) {
+  for (let indexRow = 0; indexRow < rowsCount; indexRow++) {
     const cells = new Array(colsCount)
-      .fill('') 
-      .map(toChar)
-      // .map((el, index) => {
-      //   return toChar(el, index)
-      // }) - эта запись идентична записи .map(toChar) 
-      .map(toCell(row, state))
-      .join('')
-    rows.push(createRow(cells, row + 1))
+        .fill('')
+        .map(toChar)
+    // .map((el, index) => {
+    //   return toChar(el, index)
+    // }) - эта запись идентична записи .map(toChar)
+        .map((col, indexCol) => {
+          return toCell(indexRow + 1, state)(col, indexCol + 1)
+        })
+        .join('')
+    rows.push(createRow(cells, indexRow + 1))
   }
 
   return rows.join('')

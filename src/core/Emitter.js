@@ -24,7 +24,7 @@ export class Emitter {
     this.listeners[event] = this.listeners[event] || []
     this.listeners[event].push(fn)
     return () => {
-      this.listeners[event] = 
+      this.listeners[event] =
         this.listeners[event].filter(listener => listener !== fn)
     }
   }

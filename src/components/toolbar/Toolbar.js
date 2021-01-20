@@ -1,7 +1,8 @@
-import { ExcelStateComponent } from "@core/ExcelStateComponent";
-import { $ } from "@core/dom";
-import { createToolbar } from "./toolbar.template";
-import { defaultStyles } from "@/constants";
+import {ExcelStateComponent} from '@core/ExcelStateComponent';
+import {$} from '@core/dom';
+import {createToolbar} from './toolbar.template';
+import {defaultStyles} from '@/constants';
+
 
 export class Toolbar extends ExcelStateComponent {
   static className = 'excel__toolbar'
@@ -37,9 +38,9 @@ export class Toolbar extends ExcelStateComponent {
       const value = JSON.parse($target.data.value)
       this.$emit('toolbar:applyStyle', value)
 
-      // // так как мы изменяем локальный state через изменения в store, 
+      // // так как мы изменяем локальный state через изменения в store,
       // // этот способ (вручную) нам теперь не нужен
-      // const key = Object.keys(value)[0]  
+      // const key = Object.keys(value)[0]
       // this.setState({[key]: value[key]})
     }
   }

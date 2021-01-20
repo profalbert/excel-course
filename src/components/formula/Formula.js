@@ -1,5 +1,6 @@
-import { ExcelComponent } from "@core/ExcelComponent";
-import { $ } from "@core/dom";
+import {ExcelComponent} from '@core/ExcelComponent';
+import {$} from '@core/dom';
+
 
 export class Formula extends ExcelComponent {
   static className = 'excel__formula'
@@ -8,8 +9,8 @@ export class Formula extends ExcelComponent {
     super($root, {
       name: 'Formula',
       listeners: ['input', 'keydown'],
-      subscribe: ['currentText'], // добавляем это свойтсво, 
-      // где будут подписки на определенные поля в state, 
+      subscribe: ['currentText'], // добавляем это свойтсво,
+      // где будут подписки на определенные поля в state,
       // а не на весь state сразу целиком
       ...options
     })
@@ -54,6 +55,6 @@ export class Formula extends ExcelComponent {
     if (event.key === 'Enter') {
       event.preventDefault()
       this.$emit('formula:done')
-    } 
+    }
   }
 }
