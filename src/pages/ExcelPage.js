@@ -5,23 +5,28 @@ import {Formula} from '@/components/formula/Formula'
 import {Table} from '@/components/table/Table'
 import {createStore} from '@core/store/createStore'
 import {rootReducer} from '@/redux/rootReducer'
-import {storage} from '@core/utils'
 import {normalizeInitState} from '@/redux/initialState'
-import {debounce} from '@core/utils'
-import {Page} from '@core/Page';
-import {storageName} from '@core/utils'
+import {Page} from '@core/page/Page';
+import { StateProcessor } from '@core/page/StateProcessor'
+import { LocalStorageClient } from '@/shared/LocalStorageClient'
 
 
 export class ExcelPage extends Page {
-  getRoot() {
-    const params = this.params || Date.now().toString()
-    const localStorageState = storage(storageName(params))
-    const store = createStore(rootReducer, normalizeInitState(localStorageState))
-    const stateListener = debounce(state => {
-      storage(storageName(params), state)
-    }, 300)
+  constructor(param) {
+    super(param)
 
-    store.subscribe(stateListener)
+    this.storeSub = null
+    this.processor = new StateProcessor(
+      new LocalStorageClient(this.params)
+    )
+  }
+
+  async getRoot() {
+    // делаем await, ибо этот state может приходить асинхронно (с сервера к примеру)
+    const loadedState = await this.processor.get()
+    const store = createStore(rootReducer, normalizeInitState(loadedState))
+
+    this.storeSub = store.subscribe(this.processor.listen) // todo: как это работает?
 
     this.excel = new Excel({
       components: [Header, Toolbar, Formula, Table],
@@ -37,5 +42,6 @@ export class ExcelPage extends Page {
 
   destroy() {
     this.excel.destroy()
+    this.storeSub.unsubscribe()
   }
 }
