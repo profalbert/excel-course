@@ -1,4 +1,4 @@
-import {$} from '@core/dom'
+import {$} from '../dom'
 import {ActiveRoute} from './ActiveRoute'
 
 
@@ -32,7 +32,7 @@ export class Router {
     const Page = ActiveRoute.mainPageRoute === 'excel'
       ? this.routes['excel']
       : this.routes['dashboard']
-    this.page = new Page(ActiveRoute.param, 56)
+    this.page = new Page(ActiveRoute.param)
 
     this.$placeholder.append(this.page.getRoot())
     // this.$placeholder.html(this.page.getRoot().html()) // todo: почему этот вариант не работает?
