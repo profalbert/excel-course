@@ -1,4 +1,4 @@
-import { Page } from "../Page"
+import { Page } from "../page/Page"
 import { Router } from "./Router" // элиасы здесь не работают, тк мы работаем с node, где не работает webpack конфиг 
 
 
